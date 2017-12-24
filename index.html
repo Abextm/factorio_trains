@@ -1,0 +1,57 @@
+<!DOCTYPE html><html ng-app="factorioTrainApp">
+	<head>
+		<script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.6.7/angular.min.js"></script>
+		<script src="main.js"></script>
+		<link rel="stylesheet" href="index.css">
+		<title>Factorio 0.16.7 Train Speed Calculator</title>
+	</head>
+	<body ng-controller="TrainController as train">
+		<table>
+			<tr><th></th><th>Name</th><th>Weight</th></tr>
+			<tr ng-repeat="(idx, wagon) in train.wagons track by idx">
+				<td><!--<img ng-if="wagon.image" ng-src="{{wagon.image}}">--></td>
+				<td>{{wagon.name}}</td>
+				<td>{{wagon.weight}}</td>
+				<td><button ng-click="train.upWagon(idx)" ng-disabled="$first">^</button></td>
+				<td><button ng-click="train.downWagon(idx)" ng-disabled="$last">v</button></td>
+				<td><button ng-click="train.removeWagon(idx)">X</button></td>
+			</tr>
+			<tr>
+				<td></td>
+				<td colspan="3">
+					<form ng-submit="train.addWagon()">
+						<select ng-model="train.newWagon">
+							<option ng-repeat="(name, wagon) in train.allWagons" ng-name="name">{{wagon.name}}</option>
+						</select>
+						<input type="submit" value="Add">
+					</form>
+				</td>
+			</tr>
+		</table>
+		<br>
+		<table>
+			<tr><th></th><th>Forward</th><th>Backward</th></tr>
+			<tr><td>Max Speed (km/h)</td><td>{{train.forward.maxSpeedNice}}</td><td>{{train.backward.maxSpeedNice}}</td></tr>
+			<tr><td>Acceleration Time (sec)</td><td>{{train.forward.accelTimeNice}}</td><td>{{train.backward.accelTimeNice}}</td></tr>
+			<tr><td>Acceleration Tiles</td><td>{{train.forward.accelTilesNice}}</td><td>{{train.backward.accelTilesNice}}</td></tr>
+			<tr><td>Deceleration Time (sec)</td><td>{{train.forward.decelTimeNice}}</td><td>{{train.backward.decelTimeNice}}</td></tr>
+			<tr><td>Deceleration Tiles</td><td>{{train.forward.decelTilesNice}}</td><td>{{train.backward.decelTilesNice}}</td></tr>
+			<tr><th colspan=3>Internal Values</th></tr>
+			<tr><td>Power</td><td>{{train.forward.power|lim:2}}</td><td>{{train.backward.power|lim:2}}</td></tr>
+			<tr><td>Max Speed (tiles/tick)</td><td>{{train.forward.maxSpeed|lim:4}}</td><td>{{train.backward.maxSpeed|lim:4}}</td></tr>
+			<tr><td>Acceleration Time (ticks)</td><td>{{train.forward.accelTime|lim:2}}</td><td>{{train.backward.accelTime|lim:2}}</td></tr>
+			<tr><td>Acceleration Distance (tiles)</td><td>{{train.forward.accelDistance|lim:2}}</td><td>{{train.backward.accelDistance|lim:2}}</td></tr>
+			<tr><td>Actual Max Speed (tiles/tick)</td><td>{{train.forward.actualSpeed|lim:5}}</td><td>{{train.backward.actualSpeed|lim:5}}</td></tr>
+			<tr><td>Deceleration Time (ticks)</td><td>{{train.forward.decelTime|lim:2}}</td><td>{{train.backward.decelTime|lim:2}}</td></tr>
+			<tr><td>Deceleration Distance (tiles)</td><td>{{train.forward.decelDistance|lim:2}}</td><td>{{train.backward.decelDistance|lim:2}}</td></tr>
+			<tr><td>Weight</td><td>{{train.weight|lim:0}}</td></tr>
+			<tr><td>Braking Force</td><td>{{train.brakingForce|lim:2}}</td></tr>
+			<tr><td>Air resistance</td><td>{{train.airResistance|lim:4}}</td></tr>
+			<tr><td>Friction</td><td>{{train.frictionForce|lim:4}}</td></tr>
+		</table>
+		<br>
+		<table>
+			<tr><td>Braking Force Level</td><td><input ng-model="train.brakingForceLevel" type="number"></td></tr>
+		</table>
+	</body>
+</html>
