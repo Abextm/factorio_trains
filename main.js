@@ -68,7 +68,7 @@ angular.module('factorioTrainApp',[]).filter('lim',function(){
 			air_resistance:.01,
 		},
 		"Fluid Wagon":{
-			weight:3000,
+			weight:1000,
 			max_speed:1.5,
 			braking_force:3,
 			friction_force:.5,
